@@ -176,7 +176,7 @@ data:
           "targets": [
             {
               "expr": "sum(rate(otel_collector_span_metrics_duration_milliseconds_bucket[5m])) by (span_name)",
-              "legendFormat": "{{ span_name }}"
+              "legendFormat": "{{`{{ span_name }}`}}"
             }
           ],
           "gridPos": { "x": 0, "y": 0, "w": 24, "h": 8 }
@@ -188,7 +188,7 @@ data:
           "targets": [
             {
               "expr": "sum(rate(container_network_receive_bytes_total[5m])) by (container_label_k8s_app)",
-              "legendFormat": "{{ container_label_k8s_app }}"
+              "legendFormat": "{{`{{ container_label_k8s_app }}`}}"
             }
           ],
           "gridPos": { "x": 0, "y": 9, "w": 12, "h": 8 }
@@ -200,7 +200,7 @@ data:
           "targets": [
             {
               "expr": "sum(rate(container_network_transmit_bytes_total[5m])) by (container_label_k8s_app)",
-              "legendFormat": "{{ container_label_k8s_app }}"
+              "legendFormat": "{{`{{ container_label_k8s_app }}`}}"
             }
           ],
           "gridPos": { "x": 12, "y": 9, "w": 12, "h": 8 }
@@ -212,7 +212,7 @@ data:
           "targets": [
             {
               "expr": "sum(rate(container_network_receive_errors_total[5m])) by (container_label_k8s_app)",
-              "legendFormat": "{{ container_label_k8s_app }}"
+              "legendFormat": "{{`{{ container_label_k8s_app }}`}}"
             }
           ],
           "gridPos": { "x": 0, "y": 18, "w": 12, "h": 8 }
@@ -224,7 +224,7 @@ data:
           "targets": [
             {
               "expr": "sum(rate(container_network_transmit_errors_total[5m])) by (container_label_k8s_app)",
-              "legendFormat": "{{ container_label_k8s_app }}"
+              "legendFormat": "{{`{{ container_label_k8s_app }}`}}"
             }
           ],
           "gridPos": { "x": 12, "y": 18, "w": 12, "h": 8 }
@@ -236,7 +236,7 @@ data:
           "targets": [
             {
               "expr": "sum(rate(container_scrape_error[5m])) by (job)",
-              "legendFormat": "{{ job }}"
+              "legendFormat": "{{`{{ job }}`}}"
             }
           ],
           "gridPos": { "x": 0, "y": 27, "w": 24, "h": 8 }
@@ -248,7 +248,7 @@ data:
           "targets": [
             {
               "expr": "{service_name=\"unknown_service\"} |= `err`",
-              "legendFormat": "{{ service_name }}"
+              "legendFormat": "{{`{{ service_name }}`}}"
             }
           ],
           "gridPos": { "x": 0, "y": 36, "w": 24, "h": 8 }
@@ -260,7 +260,7 @@ data:
           "targets": [
             {
               "expr": "sum(rate(container_cpu_system_seconds_total[5m])) by (container_label_io_kubernetes_container_name)",
-              "legendFormat": "{{ container_label_io_kubernetes_container_name }}"
+              "legendFormat": "{{`{{ container_label_io_kubernetes_container_name }}`}}"
             }
           ],
           "gridPos": { "x": 0, "y": 45, "w": 12, "h": 8 }
@@ -272,7 +272,7 @@ data:
           "targets": [
             {
               "expr": "sum(rate(container_fs_writes_bytes_total[5m])) by (container_label_io_kubernetes_container_name)",
-              "legendFormat": "{{ container_label_io_kubernetes_container_name }}"
+              "legendFormat": "{{`{{ container_label_io_kubernetes_container_name }}`}}"
             }
           ],
           "gridPos": { "x": 12, "y": 45, "w": 12, "h": 8 }

@@ -306,7 +306,7 @@ Monitoring is crucial for detecting issues early and responding swiftly to incid
 
   <details>
   <summary style="color: green;">
-        <a href="exercises/topic4/" style="color: green; text-decoration: none;">
+        <a href="exercises/topic2/" style="color: green; text-decoration: none;">
             :chart_with_upwards_trend: 
             Syntetic Monitoring
         </a>

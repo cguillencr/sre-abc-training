@@ -1,6 +1,6 @@
-# Understanding SLO, SLI, SLA, and Error Budgets in SRE
+# **Understanding SLO, SLI, SLA, and Error Budgets in SRE**
 
-## Table of Contents
+## **Table of Contents**
 - [Overview](#overview)
 - [Definitions and Proper Order](#definitions-and-proper-order)
   - [Service Level Indicator (SLI)](#service-level-indicator-sli)
@@ -13,104 +13,117 @@
 - [Error Budget and SLO Miss Policy](#error-budget-and-slo-miss-policy)
 - [Continuous Improvement of SLO Targets](#continuous-improvement-of-slo-targets)
 - [Why 100% SLO Is Unrealistic](#why-100-slo-is-unrealistic)
+- [Defining SLOs for Services](#defining-slos-for-services)
 
 ---
 
-## Overview
+## **Overview**
+In **Site Reliability Engineering (SRE)**, the concepts of **Service Level Indicators (SLIs)**, **Service Level Objectives (SLOs)**, **Service Level Agreements (SLAs)**, and **Error Budgets** are fundamental in defining, measuring, and maintaining system reliability. 
 
-In Site Reliability Engineering (SRE), **Service Level Indicators (SLIs)**, **Service Level Objectives (SLOs)**, **Service Level Agreements (SLAs)**, and **Error Budgets** are essential for defining, measuring, and maintaining system reliability. Using these concepts strategically helps teams balance reliability and innovation, manage user expectations, and handle incidents effectively.
-
----
-
-## Definitions and Proper Order
-
-To effectively set up reliability metrics, it’s crucial to define SLIs, SLOs, SLAs, and Error Budgets in the correct sequence. 
-
-### Service Level Indicator (SLI)
-
-- **Definition**: An SLI is a specific metric that measures a system's behavior. Examples include request latency, availability percentage, and error rates.
-- **Example**: Measuring the **request latency** over a given period.
-
-### Service Level Objective (SLO)
-
-- **Definition**: An SLO is the target for an SLI that defines acceptable performance levels. SLOs are typically set below perfect (e.g., 99.9% availability) to balance reliability and development velocity.
-- **Example**: Setting a **latency SLO** for 95% of requests to respond within 200 ms.
-
-### Service Level Agreement (SLA)
-
-- **Definition**: An SLA is a formal contract with customers that outlines the expected performance and the penalties for breaches. SLAs should align with SLOs but are legally binding.
-- **Example**: An SLA might stipulate that **99.9% availability** must be met monthly, or else credits/refunds are issued.
-
-### Error Budget
-
-- **Definition**: An Error Budget is the allowable amount of time a service can fail or operate below its SLO. It provides a controlled way to manage risk and balance reliability with development speed.
-- **Example**: If your SLO is 99.9% availability, the error budget allows for 0.1% downtime (about 43.2 minutes per month).
-
-### Proper Order for Implementation
-
-1. **Define SLIs** to decide what will be measured.
-2. **Set SLOs** to target desired performance.
-3. **Establish SLAs** for contractual obligations with external customers.
-4. **Allocate an Error Budget** based on the SLO to manage development and reliability trade-offs.
+By implementing these concepts effectively, organizations can:
+- Balance reliability with feature development.
+- Set realistic expectations for customers.
+- Create structured responses when reliability goals are missed.
+- Maintain an efficient trade-off between system stability and innovation.
 
 ---
 
-# Applying SLIs, SLOs, SLAs, and Error Budgets
+## **Definitions and Proper Order**
+To effectively set up reliability metrics, it’s essential to define SLIs, SLOs, SLAs, and Error Budgets in the correct sequence.
 
-| Criteria                  | Greenfield Project                        | Mature Product                        |
-|---------------------------|-------------------------------------------|---------------------------------------|
-| **Define SLIs**           | Track basic SLIs like availability, latency, and error rate. | Use detailed SLIs (e.g., latency percentiles, geographic availability). |
-| **Set SLOs**              | Set an initial SLO target, e.g., 99.9% availability. | Fine-tune SLOs, e.g., 99.95% availability, aligned with business goals. |
-| **Establish SLAs**        | Delay setting SLAs until stable, after SLOs are consistently met. | Commit to SLAs based on customer needs with possible penalties for breaches. |
-| **Allocate Error Budget** | Allow a 0.1% error budget for development flexibility. | Limit risk with a smaller error budget, e.g., 0.05%, to ensure reliability. |
-| **SLO Miss Policy**       | Restrict deployments if the error budget is exceeded, prioritize bug fixes. | Freeze new features, require incident review, and implement reliability improvements if error budget is exhausted. |
-| **Continuous Improvement** | Quarterly review of SLOs; adjust if system performance exceeds expectations. | Quarterly review; if SLOs are exceeded, consider raising SLOs to enhance reliability further. |
+### **Service Level Indicator (SLI)**
+- **Definition**: SLIs are quantitative measurements that track system performance and user experience.
+- **Examples**: Availability percentage, request latency, error rate, successful queries per second.
+- **Use Case**: If **99% of API requests** complete successfully within **200ms**, then **99%** is the **SLI** for request latency.
 
-## Error Budget and SLO Miss Policy
+### **Service Level Objective (SLO)**
+- **Definition**: SLOs are reliability goals based on SLIs that define acceptable performance levels.
+- **Examples**: 
+  - **Availability SLO**: 99.9% uptime.
+  - **Latency SLO**: 95% of requests complete within 100ms.
+- **Use Case**: If an SLI shows **99.8% availability**, and the target SLO is **99.9%**, then reliability efforts must improve.
 
-When an SLO is missed, the **Error Budget** acts as a buffer to manage trade-offs between reliability and feature deployment. Here are examples of Error Budget policies for missed SLOs:
+### **Service Level Agreement (SLA)**
+- **Definition**: SLAs are contractual agreements with customers that specify expected service reliability and penalties for failing to meet targets.
+- **Examples**: 
+  - **"Service must be available 99.9% of the time, or customers receive credits."**
+  - **"If request latency exceeds 200ms for 5% of requests, a financial penalty applies."**
+- **Use Case**: An SLA guarantees compensation for breaches, ensuring accountability.
 
-### Greenfield Project
-- **Policy**: Limit deployments or require approvals if the error budget is exceeded.
-- **Action**: If the error budget is exhausted, restrict deployments for one week and prioritize bug fixes.
+### **Error Budget**
+- **Definition**: The amount of allowable unreliability before corrective actions are taken.
+- **Example**: If an SLO defines **99.9% availability**, the **error budget allows 0.1% downtime** (about **43.2 minutes per month**).
+- **Use Case**: If a service has already failed for **35 minutes**, only **8.2 minutes** remain before **new deployments** are frozen.
 
-### Mature Product
-- **Policy**: Immediate response required when SLO is breached, with more restrictive measures.
-- **Action**: Freeze all new feature deployments, require an incident review, and implement reliability improvements.
+### **Proper Order for Implementation**
+1. **Define SLIs** → Decide what system behaviors need measurement.
+2. **Set SLOs** → Establish reliability targets based on SLIs.
+3. **Establish SLAs** → Create legal commitments aligned with SLOs.
+4. **Allocate an Error Budget** → Define acceptable failure limits before corrective action is needed.
 
-The policy helps maintain reliability by pausing new development until system health is restored.
+---
 
-## Continuous Improvement of SLO Targets
+## **Applying SLIs, SLOs, SLAs, and Error Budgets**
+SLI, SLO, SLA, and Error Budget implementations vary between **newly developed applications (Greenfield)** and **established services (Mature Products).** The table below illustrates the differences:
 
-**SLO targets** should not remain static. Periodic reviews, ideally every quarter, help align SLOs with evolving system performance and user expectations. For example:
+| **Criteria**          | **Greenfield Project**                 | **Mature Product**                   |
+|-----------------------|---------------------------------------|---------------------------------------|
+| **Define SLIs**       | Basic metrics: availability, latency, errors. | Advanced SLIs: geographic availability, detailed latency percentiles. |
+| **Set SLOs**         | Initial target: 99.9% availability.   | Fine-tuned targets: 99.95% availability. |
+| **Establish SLAs**    | SLAs postponed until stability is proven. | Customer-driven SLAs with penalties for breaches. |
+| **Allocate Error Budget** | Allows 0.1% downtime for rapid iteration. | Smaller error budget (e.g., 0.05%) to maintain reliability. |
+| **SLO Miss Policy**   | Delay deployments if budget is exceeded. | Freeze features, require incident reviews. |
+| **Continuous Improvement** | Quarterly review of SLOs. | Adjust SLOs based on system performance trends. |
 
-- If SLOs are consistently met, consider tightening targets to improve reliability.
-- Conversely, if targets are frequently missed without clear impacts, re-evaluate whether they are set too high.
+---
 
-### Example
+## **Error Budget and SLO Miss Policy**
+If an **SLO is breached**, the **Error Budget** determines how teams respond.
 
-For a mature product:
-1. **Current SLO**: 99.9% availability.
-2. **Review Findings**: SLO is consistently exceeded at 99.95%.
-3. **Action**: Raise the SLO to 99.95% to match current performance and increase reliability.
+### **Greenfield Project**
+- **Policy**: Restrict feature releases if the error budget is exceeded.
+- **Action**: If the budget is fully consumed, **freeze deployments** for **one week** and focus on stability.
 
-## Why 100% SLO Is Unrealistic
+### **Mature Product**
+- **Policy**: Immediate intervention required if an SLO breach occurs.
+- **Action**: **All new features are paused**, an **incident review is mandatory**, and **reliability improvements take priority**.
 
-Striving for 100% reliability is impractical because:
-- **Resource Constraints**: Maintaining perfect uptime requires exponentially increasing resources, which can be cost-prohibitive.
-- **Human Error**: Systems depend on people, who may make mistakes that affect uptime.
-- **External Dependencies**: Reliance on third-party services or hardware can introduce failures beyond your control.
+---
 
-### Example
+## **Continuous Improvement of SLO Targets**
+SLOs should evolve based on:
+- **Historical data**: If an SLO is always exceeded (e.g., 99.99% uptime for a 99.9% SLO), it may be time to **raise the SLO**.
+- **Customer expectations**: Business needs may require tighter SLAs and more stringent SLOs.
+- **System architecture improvements**: As infrastructure matures, more aggressive SLOs may be feasible.
 
-Instead of aiming for 100% availability, a **99.99% availability** SLO allows for minor, non-disruptive downtimes, balancing reliability with resource efficiency.
+### **Example**
+A service initially targets **99.9% availability**, but internal monitoring consistently shows **99.95% uptime**. The SLO is then **increased to 99.95%**, aligning expectations with actual performance.
 
+---
 
+## **Why 100% SLO Is Unrealistic**
+Perfect reliability is **impossible** due to:
+1. **Cost**: 100% availability is **expensive** and **over-engineering**.
+2. **Human Error**: Mistakes will occur, making perfection unattainable.
+3. **Third-Party Dependencies**: External services introduce unpredictability.
+4. **Diminishing Returns**: Improving uptime from 99.99% to 99.999% increases cost exponentially.
 
-# Service Level Objectives (SLOs)
-At the end of this file a list like this one should be created 
-| **SLO Category** | **Objective**                                                | **Target**                                  | **SLI (Service Level Indicator)**                                                                           | **Error Budget**                                                 |
-|------------------|--------------------------------------------------------------|---------------------------------------------|-------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------|
-| **Latency**      | REST API should respond within 100 milliseconds.             | 95% of requests should complete within 100 ms. | Percentage of requests completing under 100 ms (measured via Prometheus latency metrics).                    | 5% of requests may exceed the 100 ms latency threshold.          |
-| **Availability** | Maintain low error rates to ensure high service availability. | Less than 10% of requests result in errors. | Percentage of requests without errors (measured via HTTP response codes and error logs).                     | 10% of requests may result in errors before intervention.        |
-| **Traffic**      | Ensure network stability by monitoring transmitted bytes.     | Total bytes transmitted per container stays within expected thresholds. | Rate of bytes transmitted per container (measured via network metrics in Prometheus).                        | Up to 5% above expected transmission rate before scaling.        |
+### **Real-World Example**
+A **99.99% uptime** goal allows for brief, **non-disruptive downtimes**, balancing cost and reliability.
+
+---
+
+## **Defining SLOs for Services**
+The table below provides **examples of well-defined SLOs** for common service metrics.
+
+| **SLO Category** | **Objective**                                      | **Target**                                     | **SLI (Service Level Indicator)**                                                        | **Error Budget**                                 |
+|------------------|--------------------------------------------------|-----------------------------------------------|-----------------------------------------------------------------------------------------|--------------------------------------------------|
+| **Latency**      | REST API should respond within **100ms**.        | **95% of requests** complete within 100ms.  | Percentage of requests completing within 100ms (**measured via Prometheus**).           | **5% of requests** may exceed the 100ms limit.   |
+| **Availability** | Ensure high uptime.                              | **99.95% availability** per month.          | Percentage of requests without failures (**measured via HTTP 2xx response codes**).     | **0.05% downtime allowed per month.**            |
+| **Traffic**      | Monitor network stability.                       | Keep transmission rate within normal range.  | Rate of bytes transmitted (**measured via Prometheus network metrics**).                | **5% above expected transmission before scaling.** |
+
+---
+
+This document provides **SRE fundamentals** for defining reliability goals, **balancing uptime and development speed**, and **managing system risk effectively**.
+
+---
