@@ -1,0 +1,24 @@
+{
+    "name": "SRE ABC Training",
+    "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+    "features": {
+        "ghcr.io/devcontainers/features/docker-in-docker:1": {}
+    },
+    "postCreateCommand": "bash .devcontainer/setup.sh",
+    "customizations": {
+        "vscode": {
+            "settings": {
+                "terminal.integrated.shell.linux": "/bin/bash"
+            },
+            "extensions": [
+                "ms-azuretools.vscode-docker",
+                "ms-vscode-remote.remote-containers"
+            ]
+        }
+    },
+    "hostRequirements": {
+        "memory": "16gb",
+        "cpus": 4,
+        "storage": "50gb"
+    }
+}
